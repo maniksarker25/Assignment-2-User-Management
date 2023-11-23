@@ -60,6 +60,21 @@ const addNewProductInOrdersInDB = async (userId: number, product: TOrder) => {
   return updatedUserWithProduct;
 };
 
+// get all  orders for a specific user -----------------
+const getAllOrderForSpecificUserFromDB = async (userId: number) => {
+  const result = await User.findOne(
+    {
+      $and: [{ userId }, { orders: { $exists: true } }],
+    },
+    { orders: 1 },
+  );
+  if (result) {
+    return result;
+  } else {
+    return "Don't have any orders";
+  }
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
@@ -67,4 +82,5 @@ export const UserServices = {
   deleteUserFromDB,
   updateUserInDB,
   addNewProductInOrdersInDB,
+  getAllOrderForSpecificUserFromDB,
 };

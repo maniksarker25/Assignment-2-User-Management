@@ -122,9 +122,7 @@ const userSchema = new Schema<TUser>({
     type: addressSchema,
     required: [true, 'address is required'],
   },
-  orders: {
-    type: orderSchema,
-  },
+  orders: [orderSchema],
 });
 
 // middleware for password hash---------------

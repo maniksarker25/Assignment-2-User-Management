@@ -153,6 +153,37 @@ const addProductInOrders = async (req: Request, res: Response) => {
   }
 };
 
+// get orders for specific users -----------
+const getOrderForSpecificUser = async (req: Request, res: Response) => {
+  try {
+    const userId: any = req.params.userId;
+    if (await User.isUserExists(userId)) {
+      const result =
+        await UserServices.getAllOrderForSpecificUserFromDB(userId);
+      res.status(200).json({
+        success: true,
+        message: 'Order Fetched Successfully',
+        data: { orders: result },
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found',
+        },
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUser,
@@ -160,4 +191,5 @@ export const UserControllers = {
   deleteUser,
   updateUser,
   addProductInOrders,
+  getOrderForSpecificUser,
 };
