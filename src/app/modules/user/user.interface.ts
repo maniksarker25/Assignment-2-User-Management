@@ -1,5 +1,5 @@
 export type TFullName = {
-  fistName: string;
+  firstName: string;
   lastName: string;
 };
 export type TAddress = {
@@ -12,7 +12,7 @@ export type TOrder = {
   price: number;
   quantity: number;
 };
-export interface TUser {
+export type TUser = {
   userId: number;
   username: string;
   password: string;
@@ -23,4 +23,4 @@ export interface TUser {
   hobbies: string[];
   address: TAddress;
   orders?: TOrder[];
-}
+};

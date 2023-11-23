@@ -1,9 +1,10 @@
 import { Schema, model } from 'mongoose';
 import { TAddress, TFullName, TOrder, TUser } from './user.interface';
-
+import bcrypt from 'bcrypt';
+import config from '../../config';
 // schema for full name -----------------
 const fullNameSchema = new Schema<TFullName>({
-  fistName: {
+  firstName: {
     type: String,
     trim: true,
     required: [true, 'First name is required'],
@@ -118,6 +119,22 @@ const userSchema = new Schema<TUser>({
   orders: {
     type: orderSchema,
   },
+});
+
+// middleware for password hash---------------
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
 });
 
 export const User = model<TUser>('user', userSchema);
