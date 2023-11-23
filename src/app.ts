@@ -9,10 +9,6 @@ app.use(cors());
 
 // routers ----------
 app.use('/api', userRoutes);
-
-app.get('/amni', (req, res) => {
-  res.send('kdjdk');
-});
 app.get('/', (req: Request, res: Response) => {
   res.send('User Management');
 });
