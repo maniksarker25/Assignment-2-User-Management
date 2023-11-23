@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { UserServices } from './user.services';
 import UserValidationSchema from './user.validation';
 import { User } from './user.model';
-import { string } from 'zod';
 
 const createUser = async (req: Request, res: Response) => {
   try {
