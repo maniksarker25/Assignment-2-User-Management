@@ -6,13 +6,17 @@ const createUserIntoDB = async (userData: TUser) => {
   return result;
 };
 const getAllUserFromDB = async () => {
-  const result = await User.find().projection({
-    username: 1,
-    fullName: 1,
-    age: 1,
-    email: 1,
-    address: 1,
-  });
+  const result = await User.find(
+    {},
+    {
+      _id: 0,
+      username: 1,
+      fullName: 1,
+      age: 1,
+      email: 1,
+      address: 1,
+    },
+  );
   return result;
 };
 
