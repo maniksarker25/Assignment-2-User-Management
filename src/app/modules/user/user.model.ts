@@ -8,7 +8,6 @@ import {
 } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
-import { any } from 'zod';
 // schema for full name -----------------
 const fullNameSchema = new Schema<TFullName>({
   firstName: {
