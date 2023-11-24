@@ -33,7 +33,11 @@ const getSingleUserFromDB = async (userId: number) => {
 
 // update user ----------------
 const updateUserInDB = async (userId: number, updatedUserData: TUser) => {
-  const result = await User.updateOne({ userId: userId }, updatedUserData);
+  const result = await User.findOneAndUpdate(
+    { userId: userId },
+    updatedUserData,
+    { new: true, projection: { password: 0, _id: 0, orders: 0 } },
+  );
   return result;
 };
 // delete user -----------------------

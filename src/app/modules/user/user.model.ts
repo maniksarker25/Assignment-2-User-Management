@@ -8,6 +8,7 @@ import {
 } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { any } from 'zod';
 // schema for full name -----------------
 const fullNameSchema = new Schema<TFullName>({
   firstName: {
@@ -143,6 +144,19 @@ userSchema.pre('save', async function (next) {
 
 userSchema.post('save', function (doc, next) {
   doc.set('password', undefined);
+  next();
+});
+
+// password hash in update operation --------
+userSchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate() as any;
+
+  if (update.password) {
+    update.password = await bcrypt.hash(
+      update.password,
+      Number(config.bcrypt_salt_rounds),
+    );
+  }
   next();
 });
 
