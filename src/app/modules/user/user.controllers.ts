@@ -143,6 +143,15 @@ const addProductInOrders = async (req: Request, res: Response) => {
         message: 'Order Created Successfully',
         data: null,
       });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found',
+        },
+      });
     }
   } catch (error: any) {
     res.status(500).json({
