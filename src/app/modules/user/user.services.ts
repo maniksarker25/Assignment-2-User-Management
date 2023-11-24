@@ -24,7 +24,10 @@ const getAllUserFromDB = async () => {
 };
 
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await User.findOne({ userId }, { password: 0, _id: 0 });
+  const result = await User.findOne(
+    { userId },
+    { password: 0, _id: 0, orders: 0 },
+  );
   return result;
 };
 
@@ -77,8 +80,13 @@ const getAllOrderForSpecificUserFromDB = async (userId: number) => {
 
 //  Calculate Total Price of Orders for a Specific User
 const calculateTotalPriceForOrderInDB = async (userId: number) => {
-  const totalPrice = await User.aggregate([
-    { $match: { userId: userId, orders: { $exists: true, $ne: [] } } },
+  const result = await User.aggregate([
+    {
+      $match: {
+        userId: { $eq: Number(userId) },
+        orders: { $exists: true, $ne: [] },
+      },
+    },
     { $unwind: '$orders' },
     {
       $group: {
@@ -90,7 +98,11 @@ const calculateTotalPriceForOrderInDB = async (userId: number) => {
     },
     { $project: { _id: 0, totalPrice: 1 } },
   ]);
-  return totalPrice;
+  if (result.length > 0) {
+    return { totalPrice: result[0].totalPrice };
+  } else {
+    return { totalPrice: 0 };
+  }
 };
 
 export const UserServices = {

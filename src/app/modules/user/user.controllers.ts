@@ -106,7 +106,7 @@ const deleteUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'User deleted successfully!',
-        data: result,
+        data: null,
       });
     } else {
       res.status(404).json({
@@ -193,7 +193,7 @@ const calculateTotalPriceForOrders = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'Total price calculated successfully!',
-        data: { totalPrice: result },
+        data: result,
       });
     } else {
       res.status(404).json({

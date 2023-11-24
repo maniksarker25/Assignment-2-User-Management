@@ -104,6 +104,7 @@ const userSchema = new Schema<TUser>({
   fullName: {
     type: fullNameSchema,
     required: [true, 'Full Name is required'],
+    _id: false,
   },
   age: {
     type: Number,
@@ -121,8 +122,12 @@ const userSchema = new Schema<TUser>({
   address: {
     type: addressSchema,
     required: [true, 'address is required'],
+    _id: false,
   },
-  orders: [orderSchema],
+  orders: {
+    type: [orderSchema],
+    _id: false,
+  },
 });
 
 // middleware for password hash---------------
@@ -137,7 +142,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.post('save', function (doc, next) {
-  doc.password = '';
+  doc.set('password', undefined);
   next();
 });
 
