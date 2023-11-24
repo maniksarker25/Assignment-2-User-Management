@@ -3,6 +3,7 @@ import { UserServices } from './user.services';
 import UserValidationSchema from './user.validation';
 import { User } from './user.model';
 
+// create new user
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
@@ -21,6 +22,7 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
+// get all users
 const getAllUser = async (req: Request, res: Response) => {
   try {
     const result = await UserServices.getAllUserFromDB();
@@ -172,7 +174,7 @@ const getOrderForSpecificUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'Order Fetched Successfully',
-        data: { orders: result },
+        data: result,
       });
     } else {
       res.status(404).json({

@@ -143,6 +143,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.post('save', function (doc, next) {
   doc.set('password', undefined);
+  doc.set('orders', undefined);
   next();
 });
 

@@ -1,13 +1,17 @@
 import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
+// create a new user
 const createUserIntoDB = async (userData: TUser) => {
   if (await User.isUserExists(userData.userId)) {
     throw new Error('This user already exists');
   }
   const result = await User.create(userData);
-  return result;
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { _id, ...withoutId } = result.toObject();
+  return withoutId;
 };
+// get all users
 const getAllUserFromDB = async () => {
   const result = await User.find(
     {},
@@ -22,7 +26,7 @@ const getAllUserFromDB = async () => {
   );
   return result;
 };
-
+// get single user
 const getSingleUserFromDB = async (userId: number) => {
   const result = await User.findOne(
     { userId },
@@ -73,7 +77,7 @@ const getAllOrderForSpecificUserFromDB = async (userId: number) => {
     {
       $and: [{ userId }, { orders: { $exists: true, $ne: [] } }],
     },
-    { orders: 1 },
+    { orders: 1, _id: 0 },
   );
   if (result) {
     return result;
