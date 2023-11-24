@@ -147,13 +147,13 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-// password hash in update operation --------
+// password hash with update operation---------- --------
 userSchema.pre('findOneAndUpdate', async function (next) {
-  const update = this.getUpdate() as any;
+  const updatedData = this.getUpdate() as any;
 
-  if (update.password) {
-    update.password = await bcrypt.hash(
-      update.password,
+  if (updatedData.password) {
+    updatedData.password = await bcrypt.hash(
+      updatedData.password,
       Number(config.bcrypt_salt_rounds),
     );
   }
