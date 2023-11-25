@@ -13,4 +13,8 @@ app.get('/', (req: Request, res: Response) => {
   res.send('User Management');
 });
 
+app.all('*', (req: Request, res: Response) => {
+  res.status(404).json({ success: false, message: 'route is not found' });
+});
+
 export default app;
